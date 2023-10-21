@@ -27,6 +27,9 @@
 # Env
 .env
 
+# DB
+/db
+
 .phpunit.cache
 .phpunit.result.cache
 logs
