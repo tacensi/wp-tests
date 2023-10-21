@@ -1,0 +1,34 @@
+# PHPStorm
+/.idea
+
+# Composer
+/vendor
+/composer.lock
+
+# Build artifacts and temporary files
+/build/artifacts
+/build/tmp
+/tests/autoload.php
+
+# PHP-CS-Fixer
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+
+# Psalm
+/.psalm/cache
+
+# PHPUnit
+/.phpunit.cache
+.phpunit.result.cache
+
+# Logs
+*.log
+
+# Env
+.env
+
+.phpunit.cache
+.phpunit.result.cache
+logs
+vendor
+
