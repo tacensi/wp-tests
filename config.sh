@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
 
+# load env data
 if [ -f .env ]
 then
   export $(cat .env | xargs)
 fi
 
-#docker exec -i ${SLUG}_wp wp scaffold plugin-tests $SLUG --force
-#docker exec --workdir /var/www/html/wp-content/plugins/${SLUG} -i ${SLUG}_wp composer install
-#docker exec --workdir /var/www/html/wp-content/plugins/${SLUG}  -i ${SLUG}_wp bin/install-wp-tests.sh ${DB_NAME}_test root $DB_ROOT_PASSWORD ${SLUG}_mysql latest
-#docker exec --workdir /var/www/html/wp-content/plugins/${SLUG}  -i ${SLUG}_wp vendor/bin/phpunit --migrate-configuration
-docker exec --workdir /var/www/html/wp-content/plugins/${SLUG}  -i ${SLUG}_wp vendor/bin/phpunit --colors=always
-#docker exec --workdir /var/www/html/wp-content/plugins/${SLUG}  -i ${SLUG}_wp install-wp-tests.sh ${DB_NAME}_test root $DB_ROOT_PASSWORD ${SLUG}_mysql latest
+# is the container running?
+if [ ! "$(docker ps -a -q -f name=${SLUG}_wp -f status=running)" ]; then
+  docker-compose up -d
+else
+  echo "already running"
+fi
 
+docker exec wp-teste_wp wp core install --url=${URL} --title="${TITLE}" --admin_user=${ADMIN_USER} --admin_email=${ADMIN_EMAIL} --admin_password=${ADMIN_PASSWORD}
+
+docker exec ${SLUG}_wp wp package install yoast/wp-cli-faker
+docker exec ${SLUG}_wp wp faker core content
+docker exec ${SLUG}_wp wp scaffold plugin-tests ${SLUG}
