@@ -18,6 +18,7 @@ RUN apt update && apt install -y \
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
+RUN mkdir /var/www/.wp-cli && chown -R $UNAME: /var/www/.wp-cli
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && echo "*** composer command installed"
